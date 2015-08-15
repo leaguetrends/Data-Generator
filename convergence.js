@@ -2,6 +2,8 @@
 // Champion
 // 	post/prepatch
 // 		norms
+//			Games: #
+//			TotalGames: #
 // 			Item
 // 				ItemID
 // 					Before %
@@ -20,11 +22,11 @@ var Firebase = require('Firebase')
 
 var ref = new Firebase('https://apitemdataset.firebaseio.com')
 
-var region = 'BR'
+var region = 'NA'
 
 
 
-ref.child('prepatch').child('normal').child('BR').on('child_added', function(snapshot){
+ref.child('prepatch').child('normal').child('NA').on('child_added', function(snapshot){
 	
 		
 	var matchId = snapshot.val()
@@ -34,6 +36,42 @@ ref.child('prepatch').child('normal').child('BR').on('child_added', function(sna
 		var participants = match.participants
 		
 		for(var z in participants){
+			if(participants[z].stats.item0){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item0 
+				})
+			}
+			if(participants[z].stats.item1){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item1 
+				})
+			}
+			if(participants[z].stats.item2){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item2
+				})
+			}
+			if(participants[z].stats.item3){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item3 
+				})
+			}
+			if(participants[z].stats.item4){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item4 
+				})
+			}
+			if(participants[z].stats.item5){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item5 
+				})
+			}
+			if(participants[z].stats.item6){
+				ref.child('request').push({
+					path:'champion/' + participants[z].championId + '/prepatch/normal/item/' + participants[z].stats.item6 
+				})
+			}
+
 			console.log(participants[z].stats.item0)
 		}
 	})
@@ -52,9 +90,14 @@ var API_KEY = 'f52ef371-e37a-4faa-b612-f84df24ca1ef'
 function httpGet(theUrl, callback){
 	console.log('something is happening')
     request(theUrl, function (error, response, body){
-    	console.log(body)
+    	
+    	//console.log('body')
+    	//if(error) console.log(error)
 		if (!error && response.statusCode == 200){
+			console.log('doin werk')
 		  	callback(body) // Call the callback function passed in
+		}else if(response.statusCode == 403){
+			console.log('damnit out of requests for now')
 		}	
 	})
 }
